@@ -1,0 +1,331 @@
+definitions:
+  request.LoginRequest:
+    properties:
+      email:
+        maxLength: 200
+        minLength: 1
+        type: string
+      password:
+        maxLength: 200
+        minLength: 1
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  request.PostRequest:
+    properties:
+      create_user_id:
+        type: integer
+      description:
+        minLength: 1
+        type: string
+      status:
+        type: integer
+      title:
+        maxLength: 200
+        minLength: 1
+        type: string
+      updated_user_id:
+        type: integer
+    required:
+    - description
+    - title
+    type: object
+  request.UserRequest:
+    properties:
+      address:
+        type: string
+      create_user_id:
+        type: integer
+      dob:
+        type: string
+      email:
+        maxLength: 200
+        minLength: 1
+        type: string
+      name:
+        maxLength: 200
+        minLength: 1
+        type: string
+      password:
+        maxLength: 200
+        minLength: 1
+        type: string
+      phone:
+        type: string
+      profile:
+        type: string
+      type:
+        default: "1"
+        type: string
+      updated_user_id:
+        type: integer
+    required:
+    - email
+    - name
+    - password
+    type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      status:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates user login
+      parameters:
+      - description: Login Request Body
+        in: body
+        name: LoginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: User Login
+      tags:
+      - LOGIN
+  /api/posts:
+    get:
+      description: Returns post list
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get post list
+      tags:
+      - POST
+    post:
+      consumes:
+      - application/json
+      description: Creates a new post
+      parameters:
+      - description: Post Request Body
+        in: body
+        name: PostRequest
+        required: true
+        schema:
+          $ref: '#/definitions/request.PostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new post
+      tags:
+      - POST
+  /api/posts/{id}:
+    delete:
+      description: Returns nil
+      parameters:
+      - description: Delete post by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a post
+      tags:
+      - POST
+    get:
+      description: Returns Found post
+      parameters:
+      - description: Find post by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Find a post by id
+      tags:
+      - POST
+    put:
+      consumes:
+      - application/json
+      description: Update a post
+      parameters:
+      - description: Post Request Body
+        in: body
+        name: PostRequest
+        required: true
+        schema:
+          $ref: '#/definitions/request.PostRequest'
+      - description: Update post by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a post
+      tags:
+      - POST
+  /api/users:
+    get:
+      description: Returns user list
+      parameters:
+      - description: User ID
+        in: header
+        name: userid
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get user list
+      tags:
+      - USER
+    post:
+      consumes:
+      - application/json
+      description: Creates a new user
+      parameters:
+      - description: User Request Body
+        in: body
+        name: UserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new user
+      tags:
+      - USER
+  /api/users/{id}:
+    delete:
+      description: Returns nil
+      parameters:
+      - description: Delete user by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a user
+      tags:
+      - USER
+    get:
+      description: Returns Found user
+      parameters:
+      - description: Find user by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Find a user by id
+      tags:
+      - USER
+    put:
+      consumes:
+      - application/json
+      description: Update a user
+      parameters:
+      - description: User Request Body
+        in: body
+        name: UserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserRequest'
+      - description: Update user by id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a user
+      tags:
+      - USER
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
