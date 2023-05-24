@@ -9,6 +9,7 @@ import (
 	"github.com/Arkar27/gin-bulletinboard/backend/models"
 	"github.com/Arkar27/gin-bulletinboard/backend/types/request"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,16 +26,26 @@ type Claims struct {
 func (service *LoginService) Authenticate(user request.LoginRequest, ctx *gin.Context) interface{} {
 	email := user.Email
 	password := user.Password
-
 	userData := service.LoginDaoInterface.Login(email, password, ctx)
+	
 	if userData.ID != 0 {
+
+		// Prepare and save in session
+		session := sessions.Default(ctx)
+		session.Set("userId", userData.ID)
+		session.Set("userType", userData.Type)
+		session.Save()
+
 		token, _ := GenerateToken(userData.ID)
 		retData := models.AuthUser{
 			User:  userData,
 			Token: token,
 		}
+
 		return retData
+
 	} else {
+
 		return struct{}{}
 	}
 }
@@ -53,6 +64,7 @@ func GenerateToken(userId uint) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(os.Getenv("SECRET_KEY")))
+
 	if err != nil {
 		return "", err
 	}

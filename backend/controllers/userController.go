@@ -32,7 +32,7 @@ func NewUserController(UserServiceInterface services.UserServiceInterface) *User
 // @Success 200 {object} response.Response{}
 // @Router /api/users [post]
 // @Security ApiKeyAuth
-func (controller *UserController) Create(ctx *gin.Context) {
+func (controller *UserController) CreateUser(ctx *gin.Context) {
 	UserRequest := request.UserRequest{}
 	err := ctx.ShouldBindJSON(&UserRequest)
 	helper.ErrorPanic(err, ctx)
@@ -59,7 +59,7 @@ func (controller *UserController) Create(ctx *gin.Context) {
 // @Success 200 {object} response.Response{}
 // @Router /api/users/{id} [put]
 // @Security ApiKeyAuth
-func (controller *UserController) Update(ctx *gin.Context) {
+func (controller *UserController) UpdateUser(ctx *gin.Context) {
 	userId := ctx.Param("id")
 	UserRequest := request.UserRequest{}
 	err := ctx.ShouldBindJSON(&UserRequest)
@@ -85,7 +85,7 @@ func (controller *UserController) Update(ctx *gin.Context) {
 // @Success 200 {object} response.Response{}
 // @Router /api/users/{id} [delete]
 // @Security ApiKeyAuth
-func (controller *UserController) Delete(ctx *gin.Context) {
+func (controller *UserController) DeleteUser(ctx *gin.Context) {
 	userId := ctx.Param("id")
 	controller.UserServiceInterface.Delete(userId, ctx)
 	response := response.Response{
@@ -106,7 +106,7 @@ func (controller *UserController) Delete(ctx *gin.Context) {
 // @Success 200 {object} object "OK"
 // @Router /api/users [get]
 // @Security ApiKeyAuth
-func (controller *UserController) UserList(ctx *gin.Context) {
+func (controller *UserController) GetUserList(ctx *gin.Context) {
 	data := controller.UserServiceInterface.FindAll(ctx)
 	response := response.Response{
 		Code:   http.StatusOK,
@@ -127,7 +127,7 @@ func (controller *UserController) UserList(ctx *gin.Context) {
 // @Success 200 {object} response.Response{}
 // @Router /api/users/{id} [get]
 // @Security ApiKeyAuth
-func (controller *UserController) UserById(ctx *gin.Context) {
+func (controller *UserController) GetUserById(ctx *gin.Context) {
 	userId := ctx.Param("id")
 	data := controller.UserServiceInterface.FindOne(userId, ctx)
 	response := response.Response{

@@ -43,6 +43,12 @@ func AuthMiddleware() gin.HandlerFunc {
 
 			userDao := userDao.NewUserDao(initializers.DB)
 			user := userDao.FindOne(userId, ctx)
+
+			if user.ID == 0 {
+				helper.ErrorPanic(constants.NotValidToken, ctx)
+				return
+			}
+
 			isSensRoute := isSensRoute(ctx)
 
 			// only admin is allowed to delete user and member is allowed self updating

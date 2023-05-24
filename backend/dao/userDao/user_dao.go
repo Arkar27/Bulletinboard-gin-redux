@@ -4,6 +4,7 @@ import (
 	helper "github.com/Arkar27/gin-bulletinboard/backend/helper"
 	"github.com/Arkar27/gin-bulletinboard/backend/initializers"
 	"github.com/Arkar27/gin-bulletinboard/backend/models"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -54,8 +55,22 @@ func (userDao *UserDao) Delete(userId string, ctx *gin.Context) {
 // FindAll implements UserDaoInterface.
 func (*UserDao) FindAll(ctx *gin.Context) []models.User {
 	var users []models.User
-	result := initializers.DB.Model(&users).Preload("Posts").Find(&users)
-	helper.ErrorPanic(result.Error, ctx)
+
+	// Get userId and userType from session
+	session := sessions.Default(ctx)
+	userId := session.Get("userId")
+	userType := session.Get("userType")
+
+	// Admin will see all users and member only see its created users
+	if userType == "0" {
+
+		result := initializers.DB.Model(&users).Preload("Posts").Find(&users)
+		helper.ErrorPanic(result.Error, ctx)
+	} else {
+
+		result := initializers.DB.Model(&users).Where("created_user_id = ?", userId).Preload("Posts").Find(&users)
+		helper.ErrorPanic(result.Error, ctx)
+	}
 
 	return users
 }
@@ -67,4 +82,3 @@ func (*UserDao) FindOne(userId string, ctx *gin.Context) models.User {
 	helper.ErrorPanic(result.Error, ctx)
 	return user
 }
-

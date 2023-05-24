@@ -32,7 +32,7 @@ func NewPostController(PostServiceInterface services.PostServiceInterface) *Post
 // @Success 200 {object} response.Response{}
 // @Router /api/posts [post]
 // @Security ApiKeyAuth
-func (controller *PostController) Create(ctx *gin.Context) {
+func (controller *PostController) CreatePost(ctx *gin.Context) {
 	PostRequest := request.PostRequest{}
 	err := ctx.ShouldBindJSON(&PostRequest)
 	helper.ErrorPanic(err, ctx)
@@ -59,7 +59,7 @@ func (controller *PostController) Create(ctx *gin.Context) {
 // @Success 200 {object} response.Response{}
 // @Router /api/posts/{id} [put]
 // @Security ApiKeyAuth
-func (controller *PostController) Update(ctx *gin.Context) {
+func (controller *PostController) UpdatePost(ctx *gin.Context) {
 	postId := ctx.Param("id")
 	PostRequest := request.PostRequest{}
 	err := ctx.ShouldBindJSON(&PostRequest)
@@ -85,7 +85,7 @@ func (controller *PostController) Update(ctx *gin.Context) {
 // @Success 200 {object} response.Response{}
 // @Router /api/posts/{id} [delete]
 // @Security ApiKeyAuth
-func (controller *PostController) Delete(ctx *gin.Context) {
+func (controller *PostController) DeletePost(ctx *gin.Context) {
 	postId := ctx.Param("id")
 	controller.PostServiceInterface.Delete(postId, ctx)
 	response := response.Response{
@@ -106,7 +106,7 @@ func (controller *PostController) Delete(ctx *gin.Context) {
 // @Success 200 {object} object "OK"
 // @Router /api/posts [get]
 // @Security ApiKeyAuth
-func (controller *PostController) PostList(ctx *gin.Context) {
+func (controller *PostController) GetPostList(ctx *gin.Context) {
 	data := controller.PostServiceInterface.FindAll(ctx)
 	response := response.Response{
 		Code:   http.StatusOK,
@@ -127,7 +127,7 @@ func (controller *PostController) PostList(ctx *gin.Context) {
 // @Success 200 {object} response.Response{}
 // @Router /api/posts/{id} [get]
 // @Security ApiKeyAuth
-func (controller *PostController) PostById(ctx *gin.Context) {
+func (controller *PostController) GetPostById(ctx *gin.Context) {
 	postId := ctx.Param("id")
 	data := controller.PostServiceInterface.FindOne(postId, ctx)
 	response := response.Response{

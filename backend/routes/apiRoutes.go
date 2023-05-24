@@ -38,20 +38,20 @@ func Routes(route *gin.Engine) {
 	// user CRUD routes
 	userRoute := apiRouter.Group("/users")
 	{
-		userRoute.GET("/", middleware.AuthMiddleware(), userController.UserList)
-		userRoute.GET("/:id", middleware.AuthMiddleware(), userController.UserById)
-		userRoute.POST("/", middleware.AuthMiddleware(), userController.Create)
-		userRoute.PUT("/:id", middleware.AuthMiddleware(), userController.Update)
-		userRoute.DELETE("/:id", middleware.AuthMiddleware(), userController.Delete)
+		userRoute.GET("/", middleware.AuthMiddleware(), userController.GetUserList)
+		userRoute.GET("/:id", middleware.AuthMiddleware(), userController.GetUserById)
+		userRoute.POST("/", middleware.AuthMiddleware(), userController.CreateUser)
+		userRoute.PUT("/:id", middleware.AuthMiddleware(), userController.UpdateUser)
+		userRoute.DELETE("/:id", middleware.AuthMiddleware(), userController.DeleteUser)
 	}
 
 	// post CRUD routes
 	postRoute := apiRouter.Group("/posts")
 	{
-		postRoute.GET("/", middleware.AuthMiddleware(), postController.PostList)
-		postRoute.GET("/:id", middleware.AuthMiddleware(), postController.PostById)
-		postRoute.POST("/", middleware.AuthMiddleware(), postController.Create)
-		postRoute.PUT("/:id", middleware.AuthMiddleware(), postController.Update)
-		postRoute.DELETE("/:id", middleware.AuthMiddleware(), postController.Delete)
+		postRoute.GET("/", middleware.AuthMiddleware(), postController.GetPostList)
+		postRoute.GET("/:id", middleware.AuthMiddleware(), postController.GetPostById)
+		postRoute.POST("/", middleware.AuthMiddleware(), postController.CreatePost)
+		postRoute.PUT("/:id", middleware.AuthMiddleware(), postController.UpdatePost)
+		postRoute.DELETE("/:id", middleware.AuthMiddleware(), postController.DeletePost)
 	}
 }
