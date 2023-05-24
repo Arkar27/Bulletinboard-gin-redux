@@ -8,7 +8,6 @@ import (
 
 type User struct {
 	gorm.Model
-	ID              uint      `gorm:"primaryKey;autoIncrement;not null;"`
 	Name            string    `gorm:"type:varchar;unique;not null"`
 	Email           string    `gorm:"unique;not null"`
 	Password        string    `gorm:"type:text;not null"`
@@ -17,10 +16,10 @@ type User struct {
 	Phone           string    `gorm:"type:varchar(20)"`
 	Address         string    `gorm:"type:varchar(255)"`
 	Dob             time.Time `gorm:"type:date"`
-	Create_user_id  uint      `gorm:"not null"`
-	Updated_user_id uint      `gorm:"not null"`
-	Deleted_user_id uint
-	Posts           []Post `gorm:"foreignKey:Create_user_id"`
+	Created_user_id uint      `gorm:"type:int;not null"`
+	Updated_user_id uint      `gorm:"type:int;not null"`
+	Deleted_user_id uint      `gorm:"type:int"`
+	Posts           []Post    `gorm:"foreignKey:Created_user_id"`
 }
 
 type AuthUser struct {

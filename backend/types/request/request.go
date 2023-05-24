@@ -17,7 +17,7 @@ type UserRequest struct {
 	Phone           string `json:"phone"`
 	Address         string `json:"address"`
 	Dob             string `json:"dob"`
-	Create_user_id  int    `json:"create_user_id"`
+	Created_user_id int    `json:"created_user_id"`
 	Updated_user_id int    `json:"updated_user_id"`
 }
 
@@ -25,6 +25,6 @@ type PostRequest struct {
 	Title           string `validate:"required,max=200,min=1" json:"title"`
 	Description     string `validate:"required,min=1" json:"description"`
 	Status          int    `json:"status"`
-	Create_user_id  int    `json:"create_user_id"`
-	Updated_user_id int    `json:"updated_user_id"`
+	Created_user_id uint    `json:"created_user_id"`
+	Updated_user_id uint    `json:"updated_user_id"`
 }

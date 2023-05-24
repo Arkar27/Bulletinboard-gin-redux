@@ -38,41 +38,22 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		// check user role and allow only admin to delete user
 		if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-			// Extract the user email and name from the claims
-			userEmail := claims["email"].(string)
-			userName := claims["name"].(string)
+			// Extract the userId from the claims
+			userId := claims["id"].(string)
 
-			if userEmail != "" && userName != "" {
+			userDao := userDao.NewUserDao(initializers.DB)
+			user := userDao.FindOne(userId, ctx)
+			isSensRoute := isSensRoute(ctx)
 
-				userDao := userDao.NewUserDao(initializers.DB)
-				user := userDao.FindUser(userName, userEmail, ctx)
+			// only admin is allowed to delete user and member is allowed self updating
+			if user.Type == "1" && isSensRoute {
+				userId := ctx.Param("id")
 				method := ctx.Request.Method
-				isSensRoute := isSensRoute(ctx)
-
-				switch method {
-				case "DELETE":
-					// admin can do delete
-					if user.Type == "1" && isSensRoute {
-						helper.ErrorPanic(constants.NoPermission, ctx)
-						return
-					}
-
-				case "PUT":
-					userId := ctx.Param("id")
-
-					// member type is not allowed to update other user info
-					if user.Type == "1" &&
-						isSensRoute &&
-						strconv.Itoa(int(user.ID)) != userId {
-
-						helper.ErrorPanic(constants.NoPermission, ctx)
-						return
-					}
+				if method == "DELETE" ||
+					method == "PUT" && strconv.Itoa(int(user.ID)) != userId {
+					helper.ErrorPanic(constants.NoPermission, ctx)
+					return
 				}
-
-			} else {
-				helper.ErrorPanic(constants.NotValidToken, ctx)
-				return
 			}
 
 		} else {
@@ -93,6 +74,5 @@ func AuthMiddleware() gin.HandlerFunc {
 func isSensRoute(ctx *gin.Context) bool {
 	route := strings.TrimSuffix(ctx.FullPath(), "/")
 	pattern := "/api/users/:id"
-
 	return route == pattern
 }

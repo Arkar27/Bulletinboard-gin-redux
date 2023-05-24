@@ -22,7 +22,7 @@ func NewLoginController(AuthServiceInterface services.AuthServiceInterface) *Log
 	}
 }
 
-// Login ...
+// Login
 // @Summary User Login
 // @Description Authenticates user login
 // @Tags LOGIN

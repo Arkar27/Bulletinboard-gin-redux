@@ -17,7 +17,7 @@ func (service *PostService) Create(post request.PostRequest, ctx *gin.Context) {
 		Title:           post.Title,
 		Description:     post.Description,
 		Status:          &post.Status,
-		Create_user_id:  post.Create_user_id,
+		Created_user_id: post.Created_user_id,
 		Updated_user_id: post.Updated_user_id,
 	}
 	service.PostDaoInterface.Create(postModel, ctx)

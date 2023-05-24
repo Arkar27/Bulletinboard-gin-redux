@@ -8,7 +8,6 @@ import (
 type UserDaoInterface interface {
 	FindAll(ctx *gin.Context) []models.User
 	FindOne(userId string, ctx *gin.Context) models.User
-	FindUser(name string, email string, ctx *gin.Context) models.User
 	Create(user models.User, ctx *gin.Context)
 	Update(user models.User, userId string, ctx *gin.Context) models.User
 	Delete(userId string, ctx *gin.Context)

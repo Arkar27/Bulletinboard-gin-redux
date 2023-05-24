@@ -15,7 +15,7 @@ definitions:
     type: object
   request.PostRequest:
     properties:
-      create_user_id:
+      created_user_id:
         type: integer
       description:
         minLength: 1
@@ -36,7 +36,7 @@ definitions:
     properties:
       address:
         type: string
-      create_user_id:
+      created_user_id:
         type: integer
       dob:
         type: string
@@ -213,12 +213,6 @@ paths:
   /api/users:
     get:
       description: Returns user list
-      parameters:
-      - description: User ID
-        in: header
-        name: userid
-        required: true
-        type: string
       produces:
       - text/plain
       responses:

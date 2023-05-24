@@ -231,15 +231,6 @@
                     "USER"
                 ],
                 "summary": "Get user list",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userid",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -425,7 +416,7 @@
                 "title"
             ],
             "properties": {
-                "create_user_id": {
+                "created_user_id": {
                     "type": "integer"
                 },
                 "description": {
@@ -456,7 +447,7 @@
                 "address": {
                     "type": "string"
                 },
-                "create_user_id": {
+                "created_user_id": {
                     "type": "integer"
                 },
                 "dob": {

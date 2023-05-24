@@ -65,7 +65,7 @@ func (controller *PostController) Update(ctx *gin.Context) {
 	err := ctx.ShouldBindJSON(&PostRequest)
 	helper.ErrorPanic(err, ctx)
 
-	retData := controller.PostServiceInterface.Update(PostRequest, postId, ctx)
+	retData := controller.PostServiceInterface.Update(PostRequest, postId , ctx)
 	response := response.Response{
 		Code:   http.StatusOK,
 		Status: "OK",

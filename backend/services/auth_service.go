@@ -2,6 +2,7 @@ package services
 
 import (
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/Arkar27/gin-bulletinboard/backend/dao/authDao"
@@ -16,8 +17,7 @@ type LoginService struct {
 }
 
 type Claims struct {
-	Email string `json:"email"`
-	Name  string `json:"name"`
+	ID string `json:"id"`
 	jwt.StandardClaims
 }
 
@@ -28,7 +28,7 @@ func (service *LoginService) Authenticate(user request.LoginRequest, ctx *gin.Co
 
 	userData := service.LoginDaoInterface.Login(email, password, ctx)
 	if userData.ID != 0 {
-		token, _ := GenerateToken(email, userData.Name)
+		token, _ := GenerateToken(userData.ID)
 		retData := models.AuthUser{
 			User:  userData,
 			Token: token,
@@ -39,14 +39,13 @@ func (service *LoginService) Authenticate(user request.LoginRequest, ctx *gin.Co
 	}
 }
 
-func GenerateToken(email string, name string) (string, error) {
+func GenerateToken(userId uint) (string, error) {
 	// Set the expiration time for the token (1 day)
 	expirationTime := time.Now().Add(time.Hour * 24)
 
 	// Create the claims containing the Email and expiration time
 	claims := &Claims{
-		Email: email,
-		Name:  name,
+		ID: strconv.FormatUint(uint64(userId), 10),
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},

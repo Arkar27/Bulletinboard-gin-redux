@@ -243,15 +243,6 @@ const docTemplate = `{
                     "USER"
                 ],
                 "summary": "Get user list",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User ID",
-                        "name": "userid",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -437,7 +428,7 @@ const docTemplate = `{
                 "title"
             ],
             "properties": {
-                "create_user_id": {
+                "created_user_id": {
                     "type": "integer"
                 },
                 "description": {
@@ -468,7 +459,7 @@ const docTemplate = `{
                 "address": {
                     "type": "string"
                 },
-                "create_user_id": {
+                "created_user_id": {
                     "type": "integer"
                 },
                 "dob": {

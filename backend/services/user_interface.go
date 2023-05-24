@@ -10,6 +10,6 @@ type UserServiceInterface interface {
 	FindAll(ctx *gin.Context) []models.User
 	FindOne(userId string, ctx *gin.Context) models.User
 	Create(user request.UserRequest, ctx *gin.Context)
-	Update(user request.UserRequest, userId string, ctx *gin.Context) models.AuthUser
+	Update(user request.UserRequest, userId string, ctx *gin.Context) models.User
 	Delete(userId string, ctx *gin.Context)
 }

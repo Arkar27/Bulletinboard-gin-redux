@@ -38,13 +38,13 @@ func (userDao *UserDao) Delete(userId string, ctx *gin.Context) {
 	var user models.User
 
 	// soft delete
-	result := userDao.DB.Where("create_user_id = ?", userId).Delete(&models.Post{})
+	result := userDao.DB.Where("created_user_id = ?", userId).Delete(&models.Post{})
 	helper.ErrorPanic(result.Error, ctx)
 	result = initializers.DB.Delete(&user, userId)
 	helper.ErrorPanic(result.Error, ctx)
 
 	// hard delete
-	// result := userDao.DB.Unscoped().Where("create_user_id = ?", userId).Delete(&models.Post{})
+	// result := userDao.DB.Unscoped().Where("created_user_id = ?", userId).Delete(&models.Post{})
 	// helper.ErrorPanic(result.Error)
 	// result = initializers.DB.Unscoped().Delete(&user, userId)
 	// helper.ErrorPanic(result.Error)
@@ -68,10 +68,3 @@ func (*UserDao) FindOne(userId string, ctx *gin.Context) models.User {
 	return user
 }
 
-// FindOne implements UserDaoInterface.
-func (*UserDao) FindUser(name string, email string, ctx *gin.Context) models.User {
-	var user models.User
-	result := initializers.DB.Where("name = ? AND email = ?", name, email).First(&user)
-	helper.ErrorPanic(result.Error, ctx)
-	return user
-}
